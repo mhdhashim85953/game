@@ -1,0 +1,29 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.score-container {
+    display: flex;
+    justify-content: space-around;
+    width: 400px;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#score1 {
+    color: green;
+}
+
+#score2 {
+    color: blue;
+}
+
+canvas {
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
