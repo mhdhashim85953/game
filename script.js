@@ -1,13 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    const restartBtn = document.getElementById('restartBtn');
 
     const gridSize = 20;
-    let snake1 = [{ x: 10, y: 10 }];
-    let snake2 = [{ x: 30, y: 10 }]; // Second snake
+    let snake1 = [];
+    let snake2 = [];
     let food = {};
-    let direction1 = 'right';
-    let direction2 = 'left'; // Initial direction for second snake
+    let direction1 = '';
+    let direction2 = '';
     let score1 = 0;
     let score2 = 0;
     let gameOver = false;
@@ -17,10 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const score2Display = document.getElementById('score2');
 
     function generateFood() {
-        food = {
-            x: Math.floor(Math.random() * (canvas.width / gridSize)),
-            y: Math.floor(Math.random() * (canvas.height / gridSize))
-        };
+        let foodX, foodY;
+        do {
+            foodX = Math.floor(Math.random() * (canvas.width / gridSize));
+            foodY = Math.floor(Math.random() * (canvas.height / gridSize));
+        } while (
+            snake1.some(segment => segment.x === foodX && segment.y === foodY) ||
+            snake2.some(segment => segment.x === foodX && segment.y === foodY)
+        );
+        food = { x: foodX, y: foodY };
     }
 
     function draw() {
@@ -46,7 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = 'black';
             ctx.font = '40px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
+            ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2 - 20);
+            ctx.font = '20px Arial';
+            ctx.fillText('Click Restart to Play Again', canvas.width / 2, canvas.height / 2 + 20);
         }
     }
 
@@ -149,6 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(gameInterval);
         gameInterval = setInterval(update, 100);
     }
+
+    restartBtn.addEventListener('click', startGame);
 
     startGame();
 });
